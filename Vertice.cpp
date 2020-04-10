@@ -55,21 +55,22 @@ Vertice* Vertice :: initializer_vertices(int lenght)
 Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
 {
     Vertice* tmp = list;
-    Edge* edge = new Edge;
+    Edge* newEdge = new Edge;
+    Edge* t = nullptr;
 
-    //edge -> setWeight((stoi(vectors[2]) ) );        // convert string to int
+    newEdge -> setWeight((stoi(vectors[2]) ) );        // convert string to int
 
     /* find the ingoing vertex in the list */
     while( (tmp -> name).compare(vectors[1]) != 0 )
         tmp = tmp -> next;
-    edge -> setNextVert(tmp);
+    newEdge -> setNextVert(tmp);
 
     tmp = list;         // make sure we start at the beginning again
 
     /* find the outgoing vertex in the list */
     while( (tmp -> name).compare(vectors[0]) != 0)
         tmp = tmp -> next;
-    edge -> setPrevVert(tmp);
+    newEdge -> setPrevVert(tmp);
 
     // we do it in this order to keep the vertex we are adding on the edge
 
@@ -77,7 +78,22 @@ Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
     // make a list of the edges
 
     if( (tmp -> edges) == nullptr)
-        tmp -> edges = edge;
+        tmp -> edges = newEdge;
+    else
+    {
+        t = tmp -> edges;
+        while( (t -> getNextEdge() ) != nullptr )
+        {
+            t =  t -> getNextEdge();
+        }
+
+        newEdge -> setPrevEdge(t);
+        t -> setNextEdge(newEdge);
+    }
+
+/*
+    if( (tmp -> edges) == nullptr)
+        tmp -> edges = newEdge;
     else
     {
         while( (tmp -> edges -> getNextEdge() ) != nullptr )
@@ -85,9 +101,20 @@ Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
             tmp -> edges =  tmp -> edges -> getNextEdge();
         }
 
-        edge -> setPrevEdge(tmp -> edges);
-        tmp -> edges -> setNextEdge(edge);
+        newEdge -> setPrevEdge(tmp -> edges);
+        tmp -> edges -> setNextEdge(newEdge);
     }
+
+    */
+/*
+    t = tmp -> edges;
+    while(t != nullptr)
+    {
+        cout <<  t -> getPrevVert() -> getName() << " " << t -> getNextVert() -> getName() << " " << t -> getWeight() << endl;
+        t =  t -> getNextEdge();
+    }
+    cout << endl;
+*/
 
     return list;
 }
@@ -98,11 +125,11 @@ Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
 
 
 string Vertice :: getName() {return name;}
-bool Vertice::getSink() {return sink;}
-bool Vertice::getSource() {return source;}
+bool Vertice :: getSink() {return sink;}
+bool Vertice :: getSource() {return source;}
 Vertice* Vertice :: getNext() {return next;}
-Vertice* Vertice::getPrev() {return prev;}
-Edge* Vertice::getEdges() {return edges;}
+Vertice* Vertice :: getPrev() {return prev;}
+Edge* Vertice :: getEdges() {return edges;}
 
 
 /*-------------------------------------READ TEXT----------------------------------------------------------------------*/
@@ -132,7 +159,7 @@ Vertice* Vertice :: readText(char *fileName)
 
     int NumberOfVertices = 0;
     int NumberOfEdges = 0;
-    char str[999];
+    char str[32] = {'\0'};
 
     Vertice* head;
 
@@ -162,7 +189,7 @@ Vertice* Vertice :: readText(char *fileName)
 
         /* We split the char* into a vector : ingoing outgoing weight */
         vector = Split(str);
-        printVector(vector);
+        //printVector(vector);
 
         head = setEdges(vector, head);
     }
