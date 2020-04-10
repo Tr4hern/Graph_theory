@@ -1,12 +1,19 @@
 //
 // Created by Arnaud on 07/04/2020.
 //
-#include <errno.h>
-#include <string.h>
-#include <stdio.h>
+#include <iostream>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+
+#include <cerrno>
+#include <cstring>
+#include <cstdio>
+#include <vector>
 
 #include "Vertice.h"
 
+typedef vector <string> Tokens;
 
 Vertice* Vertice :: initializer_vertices(int lenght)
 {
@@ -50,11 +57,29 @@ Edge *Vertice::getEdges() {return edges;}
 
 /*-------------------------------------READ TEXT----------------------------------------------------------------------*/
 
+vector<string> Split(string txt)
+{
+    istringstream iss(txt);
+    vector<string> tokens{istream_iterator<string>{iss},
+                          istream_iterator<string>{}};
+    return tokens;
+}
 
+
+void printVector(vector<string> vectors)
+{
+    for(const auto & vector : vectors)
+    {
+        cout << vector << ' ';
+    }
+    cout << endl;
+}
 
 
 Vertice* Vertice :: readText(char *fileName)
 {
+    vector<string> vector;
+
     int NumberOfVertices[1] = {'\0'};
     int NumberOfEdges[1] = {'\0'};
     char str[999];
@@ -64,7 +89,7 @@ Vertice* Vertice :: readText(char *fileName)
     errno = 0;
     FILE* file = fopen(fileName, "rt");
 
-    if (NULL == file)
+    if (nullptr == file)
     {
         printf("Error of opening at line %d of file %s : %s\n", __LINE__ , fileName, strerror(errno));
         return nullptr;
@@ -73,12 +98,15 @@ Vertice* Vertice :: readText(char *fileName)
     fscanf(file, "%d", NumberOfVertices);
     head = initializer_vertices(*NumberOfVertices);
 
-    fscanf(file, "%d", NumberOfEdges);
+    fscanf(file, "%d\n", NumberOfEdges);
 
     for(int i = 0; i < *NumberOfEdges; i++)
     {
         fgets(str, 999, file);
-        printf("%s", str);
+        strtok(str, "\n");
+
+        vector = Split(str);
+        printVector(vector);
     }
 
     printf("\nvertices : %d\nedges : %d", *NumberOfVertices, *NumberOfEdges);
