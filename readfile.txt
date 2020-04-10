@@ -1,0 +1,38 @@
+//
+// Created by Arnaud on 27/03/2020.
+//
+#include <errno.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "graph.h"
+
+#define Max_Read 50;            // number of char readable
+
+char* ArrayOfVertices[50] = {'\0'};        // array with all the vertices
+int NumberOfVertices;           // lenght of the array
+char Directed;                  // states if the graph is directed or not
+
+char str[999];
+
+int load_graph(char* fileName)
+{
+    errno = 0;
+    FILE* file = fopen(fileName, "rt");
+    //ArrayOfVertices = NULL;
+
+    if (NULL == file)
+    {
+        printf("Error of opening at line %d of file %s : %s\n", __LINE__ , fileName,strerror(errno));
+        return -1;
+    }
+
+    while(fscanf(file, "%s", str) != EOF)
+        printf("%s", str);
+
+    printf("\nend\n");
+
+    fclose(file);
+    return 0;
+} /* load_graphs */

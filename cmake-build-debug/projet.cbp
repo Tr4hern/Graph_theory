@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="projet"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="projet">
+				<Option output="D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/projet.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 projet"/>
+					<CompileFile command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="projet/fast">
+				<Option output="D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/projet.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="D:/Applications/Compileur/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 projet/fast"/>
+					<CompileFile command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Applications/Compileur/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/efrei/cours/s6/graph_theory/projet/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Edge.cpp">
+			<Option target="projet"/>
+		</Unit>
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Edge.h">
+			<Option target="projet"/>
+		</Unit>
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Vertice.cpp">
+			<Option target="projet"/>
+		</Unit>
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Vertice.h">
+			<Option target="projet"/>
+		</Unit>
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/main.cpp">
+			<Option target="projet"/>
+		</Unit>
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

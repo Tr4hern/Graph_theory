@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/efrei/cours/s6/graph_theory/projet/Edge.h
+
+D:/efrei/cours/s6/graph_theory/projet/Vertice.h
+string
+-
+Edge.h
+D:/efrei/cours/s6/graph_theory/projet/Edge.h
+
+D:/efrei/cours/s6/graph_theory/projet/main.cpp
+iostream
+-
+Vertice.h
+D:/efrei/cours/s6/graph_theory/projet/Vertice.h
+
