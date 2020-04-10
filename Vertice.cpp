@@ -3,30 +3,35 @@
 //
 #include <iostream>
 #include <sstream>
-#include <algorithm>
 #include <iterator>
 
-#include <cerrno>
 #include <cstring>
 #include <cstdio>
 #include <vector>
 
 #include "Vertice.h"
 
-typedef vector <string> Tokens;
+
+Vertice :: Vertice() : name(), source(false), sink(false), next(nullptr), prev(nullptr), edges(nullptr) {}
+Vertice :: Vertice(const Vertice & v) : name(v.name), source(v.source), sink(v.sink), next(v.next), prev(v.prev), edges(v.edges) {}
+Vertice& Vertice :: operator=(const Vertice & v)
+{
+    name = v.name;
+    source = v.source;
+    sink = v.sink;
+    next = v.next;
+    prev = v.prev;
+    edges = v.edges;
+    return *this;
+}
 
 Vertice* Vertice :: initializer_vertices(int lenght)
 {
-    Vertice *node, *tmp = nullptr, *head;
+    Vertice *node = nullptr, *tmp = nullptr, *head = nullptr;
     for(int i = 0; i < lenght; i++)
     {
         node = new Vertice;
         node -> name = to_string(i);
-        node -> next = nullptr;
-        node -> prev = nullptr;
-        node -> source = false;
-        node -> sink = false;
-        node -> edges = nullptr;
 
         if(tmp != nullptr)
         {
@@ -42,6 +47,53 @@ Vertice* Vertice :: initializer_vertices(int lenght)
     return head;
 }
 
+
+/*-----------------------------------------SET------------------------------------------------------------------------*/
+
+
+
+Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
+{
+    Vertice* tmp = list;
+    Edge* edge = new Edge;
+
+    //edge -> setWeight((stoi(vectors[2]) ) );        // convert string to int
+
+    /* find the ingoing vertex in the list */
+    while( (tmp -> name).compare(vectors[1]) != 0 )
+        tmp = tmp -> next;
+    edge -> setNextVert(tmp);
+
+    tmp = list;         // make sure we start at the beginning again
+
+    /* find the outgoing vertex in the list */
+    while( (tmp -> name).compare(vectors[0]) != 0)
+        tmp = tmp -> next;
+    edge -> setPrevVert(tmp);
+
+    // we do it in this order to keep the vertex we are adding on the edge
+
+
+    // make a list of the edges
+
+    if( (tmp -> edges) == nullptr)
+        tmp -> edges = edge;
+    else
+    {
+        while( (tmp -> edges -> getNextEdge() ) != nullptr )
+        {
+            tmp -> edges =  tmp -> edges -> getNextEdge();
+        }
+
+        edge -> setPrevEdge(tmp -> edges);
+        tmp -> edges -> setNextEdge(edge);
+    }
+
+    return list;
+}
+
+
+
 /*-----------------------------------------GET------------------------------------------------------------------------*/
 
 
@@ -49,15 +101,13 @@ string Vertice :: getName() {return name;}
 bool Vertice::getSink() {return sink;}
 bool Vertice::getSource() {return source;}
 Vertice* Vertice :: getNext() {return next;}
-Vertice *Vertice::getPrev() {return prev;}
-Edge *Vertice::getEdges() {return edges;}
-
-
+Vertice* Vertice::getPrev() {return prev;}
+Edge* Vertice::getEdges() {return edges;}
 
 
 /*-------------------------------------READ TEXT----------------------------------------------------------------------*/
 
-vector<string> Split(string txt)
+vector<string> Split(const string& txt)
 {
     istringstream iss(txt);
     vector<string> tokens{istream_iterator<string>{iss},
@@ -66,7 +116,7 @@ vector<string> Split(string txt)
 }
 
 
-void printVector(vector<string> vectors)
+void printVector(const vector<string>& vectors)
 {
     for(const auto & vector : vectors)
     {
@@ -80,8 +130,8 @@ Vertice* Vertice :: readText(char *fileName)
 {
     vector<string> vector;
 
-    int NumberOfVertices[1] = {'\0'};
-    int NumberOfEdges[1] = {'\0'};
+    int NumberOfVertices = 0;
+    int NumberOfEdges = 0;
     char str[999];
 
     Vertice* head;
@@ -95,22 +145,27 @@ Vertice* Vertice :: readText(char *fileName)
         return nullptr;
     }
 
-    fscanf(file, "%d", NumberOfVertices);
-    head = initializer_vertices(*NumberOfVertices);
+    /* We save the number of vertices */
+    fscanf(file, "%d", &NumberOfVertices);
+    head = initializer_vertices(NumberOfVertices);
 
-    fscanf(file, "%d\n", NumberOfEdges);
+    /* We save the number of edges */
+    fscanf(file, "%d\n", &NumberOfEdges);
 
-    for(int i = 0; i < *NumberOfEdges; i++)
+    printf("\nvertices : %d\nedges : %d\n", NumberOfVertices, NumberOfEdges);
+
+    for(int i = 0; i < NumberOfEdges; i++)
     {
+        /* We save the edge in a char* and we delete the '\n' */
         fgets(str, 999, file);
         strtok(str, "\n");
 
+        /* We split the char* into a vector : ingoing outgoing weight */
         vector = Split(str);
         printVector(vector);
-    }
 
-    printf("\nvertices : %d\nedges : %d", *NumberOfVertices, *NumberOfEdges);
-    printf("\nend\n");
+        head = setEdges(vector, head);
+    }
 
     fclose(file);
 

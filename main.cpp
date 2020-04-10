@@ -15,7 +15,7 @@ void printVertices(Vertice* tmp)
 int main()
 {
     Vertice* head = new Vertice();
-    head = head -> readText((char*)R"(D:\efrei\cours\s6\graph_theory\projet\txt\01.txt)");
-    printVertices(head);
+    head -> readText((char*)R"(D:\efrei\cours\s6\graph_theory\projet\txt\01.txt)");
+    //printVertices(head);
     return 0;
 }

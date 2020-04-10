@@ -5,6 +5,32 @@
 #include "Edge.h"
 
 
+Edge :: Edge() : weight('\0'), next_vert(nullptr), prev_vert(nullptr), next_edge(nullptr), prev_edge(nullptr) {}
+Edge :: Edge(const Edge& e) : weight(e.weight), next_vert(e.next_vert), prev_vert(e.prev_vert), next_edge(e.next_edge), prev_edge(e.prev_edge) {}
+Edge& Edge :: operator=(const Edge& e)
+{
+    weight = e.weight;
+
+    next_vert = e.next_vert;
+    prev_vert = e.prev_vert;
+
+    next_edge = e.next_edge;
+    prev_edge = e.prev_edge;
+
+    return *this;
+}
+
+
+
+/*-----------------------------------------SET------------------------------------------------------------------------*/
+
+void Edge :: setWeight(int w) {weight = w;}
+void Edge :: setNextVert(Vertice* vertice) {next_vert = vertice;}
+void Edge :: setPrevVert(Vertice* vertice) {prev_vert = vertice;}
+void Edge :: setNextEdge(Edge* edge) {next_edge = edge;}
+void Edge :: setPrevEdge(Edge* edge) {prev_edge = edge;}
+
+
 /*-----------------------------------------GET------------------------------------------------------------------------*/
 
 int Edge :: getWeight() {return weight;}

@@ -5,7 +5,6 @@
 #ifndef PROJET_VERTICE_H
 #define PROJET_VERTICE_H
 
-#include <string>
 #include "Edge.h"
 
 
@@ -20,7 +19,12 @@ class Vertice
         Edge* edges;
 
     public:
-        Vertice* initializer_vertices(int lenght);
+        Vertice();
+        Vertice(const Vertice &);
+        Vertice& operator=(const Vertice&);
+        static Vertice* initializer_vertices(int);
+
+        Vertice* setEdges(const vector<string>&, Vertice*);
 
         string getName();
         bool getSource();
@@ -29,7 +33,7 @@ class Vertice
         Vertice* getPrev();
         Edge* getEdges();
 
-        Vertice* readText(char *fileName);
+        Vertice* readText(char*);
 };
 
 

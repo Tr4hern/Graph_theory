@@ -5,6 +5,9 @@
 #ifndef PROJET_EDGE_H
 #define PROJET_EDGE_H
 
+#include <vector>
+#include <string>
+
 using namespace std;
 
 
@@ -20,6 +23,17 @@ class Edge
         Edge* prev_edge;
 
     public:
+        Edge();
+        Edge(const Edge&);
+        Edge& operator=(const Edge&);
+        void initializer_edge();
+
+        void setWeight(int w);
+        void setNextVert(Vertice *vertice);
+        void setPrevVert(Vertice *vertice);
+        void setNextEdge(Edge *edge);
+        void setPrevEdge(Edge *edge);
+
         int getWeight();
         Vertice* getNextVert();
         Vertice* getPrevVert();
