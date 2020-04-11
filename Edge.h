@@ -26,6 +26,7 @@ class Edge
         Edge();
         Edge(const Edge&);
         Edge& operator=(const Edge&);
+        ~Edge();
 
         void setWeight(int w);
         void setNextVert(Vertice *vertice);

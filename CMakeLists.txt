@@ -3,4 +3,4 @@ project(projet)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(projet main.cpp Vertice.cpp Vertice.h Edge.cpp Edge.h)
+add_executable(projet main.cpp Vertice.cpp Vertice.h Edge.cpp Edge.h ConsoleColor.h)

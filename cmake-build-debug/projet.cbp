@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/ConsoleColor.h">
+			<Option target="projet"/>
+		</Unit>
 		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Edge.cpp">
 			<Option target="projet"/>
 		</Unit>

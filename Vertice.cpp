@@ -11,8 +11,11 @@
 
 #include "Vertice.h"
 
+int LENGHT_VERTICES = 0;
+int LENGHT_EDGES = 0;
 
-Vertice :: Vertice() : name(), source(false), sink(false), next(nullptr), prev(nullptr), edges(nullptr) {}
+
+Vertice :: Vertice() : name(), source(true), sink(false), next(nullptr), prev(nullptr), edges(nullptr) {}
 Vertice :: Vertice(const Vertice & v) : name(v.name), source(v.source), sink(v.sink), next(v.next), prev(v.prev), edges(v.edges) {}
 Vertice& Vertice :: operator=(const Vertice & v)
 {
@@ -23,6 +26,18 @@ Vertice& Vertice :: operator=(const Vertice & v)
     prev = v.prev;
     edges = v.edges;
     return *this;
+}
+
+Vertice::~Vertice()
+{
+    next = nullptr;
+    prev = nullptr;
+    while(edges -> getNextEdge() != nullptr)
+    {
+        edges = edges -> getNextEdge();
+        edges -> setPrevEdge(nullptr);
+    }
+    edges = nullptr;
 }
 
 Vertice* Vertice :: initializer_vertices(int lenght)
@@ -50,7 +65,11 @@ Vertice* Vertice :: initializer_vertices(int lenght)
 
 /*-----------------------------------------SET------------------------------------------------------------------------*/
 
-
+void Vertice :: setName(string str) {name = str;}
+void Vertice :: setSource(bool b) {source = b;}
+void Vertice :: setSink(bool b) {sink = b;}
+void Vertice :: setNext(Vertice* v) {next = v;}
+void Vertice :: setPrev(Vertice* v) {prev = v;}
 
 Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
 {
@@ -64,6 +83,7 @@ Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
     while( (tmp -> name).compare(vectors[1]) != 0 )
         tmp = tmp -> next;
     newEdge -> setNextVert(tmp);
+    newEdge -> getNextVert() -> setSource(false);       // the vertex has at least 1 ingoing edge, so it is not a source
 
     tmp = list;         // make sure we start at the beginning again
 
@@ -91,34 +111,23 @@ Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
         t -> setNextEdge(newEdge);
     }
 
-/*
-    if( (tmp -> edges) == nullptr)
-        tmp -> edges = newEdge;
-    else
-    {
-        while( (tmp -> edges -> getNextEdge() ) != nullptr )
-        {
-            tmp -> edges =  tmp -> edges -> getNextEdge();
-        }
-
-        newEdge -> setPrevEdge(tmp -> edges);
-        tmp -> edges -> setNextEdge(newEdge);
-    }
-
-    */
-/*
-    t = tmp -> edges;
-    while(t != nullptr)
-    {
-        cout <<  t -> getPrevVert() -> getName() << " " << t -> getNextVert() -> getName() << " " << t -> getWeight() << endl;
-        t =  t -> getNextEdge();
-    }
-    cout << endl;
-*/
-
     return list;
 }
 
+Vertice* Vertice :: findSinks(Vertice* list)
+{
+    Vertice* tmp = list;
+
+    while(tmp != nullptr)
+    {
+        if(tmp -> edges == nullptr)         // there is no outgoing edge on this vertex, so it is a sink
+            tmp -> sink = true;
+
+        tmp = tmp -> next;
+    }
+
+    return list;
+}
 
 
 /*-----------------------------------------GET------------------------------------------------------------------------*/
@@ -132,7 +141,152 @@ Vertice* Vertice :: getPrev() {return prev;}
 Edge* Vertice :: getEdges() {return edges;}
 
 
-/*-------------------------------------READ TEXT----------------------------------------------------------------------*/
+
+/*-------------------------------------MATRIX-------------------------------------------------------------------------*/
+
+string** Vertice :: initializer_matrix(char c)      // A for Adjency, V for Values
+{
+    string** adj = new string*[LENGHT_VERTICES + 1];
+
+    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    {
+        adj[i] = new string[LENGHT_VERTICES + 1];
+
+        for(int j = 0; j < LENGHT_VERTICES + 1; j++)
+        {
+            if(i == 0 && j != 0)
+                adj[i][j] = to_string(j - 1);
+
+            else if(j == 0 && i != 0)
+                adj[i][j] = to_string(i - 1);
+
+            else if(j != 0 && i != 0)
+            {
+                if(c == 'V')
+                    adj[i][j] = "*";
+
+                else if(c == 'A')
+                    adj[i][j] = "0";
+            }
+        }
+    }
+
+    return adj;
+}
+
+
+string** Vertice :: adjacentMatrix(Vertice * list)
+{
+    string** adj = initializer_matrix('A');
+
+    Vertice* tmp = list;
+    Edge* t = nullptr;
+
+    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    {
+        if(i > 0)
+        {
+            t = tmp -> edges;
+
+            while(t != nullptr)
+            {
+                adj[stoi(t -> getPrevVert() -> getName() ) + 1] [stoi(t -> getNextVert() -> getName() ) + 1] = "1";
+                t = t -> getNextEdge();
+            }
+
+            tmp = tmp -> next;
+        }
+    }
+
+    return adj;
+}
+
+string** Vertice :: valuesMatrix(Vertice* list)
+{
+    string** adj = initializer_matrix('V');
+
+    Vertice* tmp = list;
+    Edge* t = nullptr;
+
+    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    {
+        if(i > 0)
+        {
+            t = tmp -> edges;
+
+            while(t != nullptr)
+            {
+                adj[stoi(t -> getPrevVert() -> getName() ) + 1] [stoi(t -> getNextVert() -> getName() ) + 1] = to_string(t -> getWeight() );
+                t = t -> getNextEdge();
+            }
+
+            tmp = tmp -> next;
+        }
+    }
+
+    return adj;
+}
+
+void Vertice ::printMatrix(string ** matrix, char c)
+{
+    if(c == 'A')
+        cout << "Adjency Matrix" << endl;
+    else if(c == 'V')
+        cout << "Values Matrix" << endl;
+
+
+    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    {
+
+        if(i < 11 )
+            cout << " ";
+
+        for(int j = 0; j < LENGHT_VERTICES + 1; j++)
+        {
+            if(i == 0 && j <= 10)
+                cout << "  " << red << matrix[i][j] << white;
+
+            else if (i == 0 && j > 10)
+                cout << " " << red << matrix[i][j] << white;
+
+            else if (j == 0 && i != 0)
+                cout << "  " << red << matrix[i][j] << white;
+
+            else
+            {
+                if(c == 'A')
+                {
+                    if(matrix[i][j] == "1")
+                        cout << " " << green << matrix[i][j] << white << " ";
+                    else
+                        cout << " " << matrix[i][j] << " ";
+                }
+
+                if(c == 'V')
+                {
+                    if(matrix[i][j] == "*")
+                        cout << " " << matrix[i][j] << " ";
+                    else
+                    {
+                        if(stoi(matrix[i][j]) > 9 || stoi(matrix[i][j]) < 0)
+                            cout << " " << green << matrix[i][j] << white;
+                        else
+                            cout << " " << green << matrix[i][j] << white << " ";
+                    }
+                }
+            }
+
+            if(j >= 9)
+                cout << " ";
+        }
+        cout << endl;
+    }
+}
+
+
+
+/*-------------------------------------NOT IN VERTICE-----------------------------------------------------------------*/
+
 
 vector<string> Split(const string& txt)
 {
@@ -143,15 +297,9 @@ vector<string> Split(const string& txt)
 }
 
 
-void printVector(const vector<string>& vectors)
-{
-    for(const auto & vector : vectors)
-    {
-        cout << vector << ' ';
-    }
-    cout << endl;
-}
 
+
+/*-------------------------------------READ TEXT----------------------------------------------------------------------*/
 
 Vertice* Vertice :: readText(char *fileName)
 {
@@ -174,12 +322,12 @@ Vertice* Vertice :: readText(char *fileName)
 
     /* We save the number of vertices */
     fscanf(file, "%d", &NumberOfVertices);
+    LENGHT_VERTICES = NumberOfVertices;
     head = initializer_vertices(NumberOfVertices);
 
     /* We save the number of edges */
     fscanf(file, "%d\n", &NumberOfEdges);
-
-    printf("\nvertices : %d\nedges : %d\n", NumberOfVertices, NumberOfEdges);
+    LENGHT_EDGES = NumberOfEdges;
 
     for(int i = 0; i < NumberOfEdges; i++)
     {
@@ -189,12 +337,21 @@ Vertice* Vertice :: readText(char *fileName)
 
         /* We split the char* into a vector : ingoing outgoing weight */
         vector = Split(str);
-        //printVector(vector);
 
         head = setEdges(vector, head);
     }
+
+    head = findSinks(head);
 
     fclose(file);
 
     return head;
 }
+
+
+
+
+
+
+
+

@@ -4,10 +4,12 @@
 CMakeFiles/projet.dir/Edge.cpp.obj: ../Edge.cpp
 CMakeFiles/projet.dir/Edge.cpp.obj: ../Edge.h
 
+CMakeFiles/projet.dir/Vertice.cpp.obj: ../ConsoleColor.h
 CMakeFiles/projet.dir/Vertice.cpp.obj: ../Edge.h
 CMakeFiles/projet.dir/Vertice.cpp.obj: ../Vertice.cpp
 CMakeFiles/projet.dir/Vertice.cpp.obj: ../Vertice.h
 
+CMakeFiles/projet.dir/main.cpp.obj: ../ConsoleColor.h
 CMakeFiles/projet.dir/main.cpp.obj: ../Edge.h
 CMakeFiles/projet.dir/main.cpp.obj: ../Vertice.h
 CMakeFiles/projet.dir/main.cpp.obj: ../main.cpp

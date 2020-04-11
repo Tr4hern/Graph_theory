@@ -20,6 +20,13 @@ Edge& Edge :: operator=(const Edge& e)
     return *this;
 }
 
+Edge::~Edge()
+{
+    next_vert = nullptr;
+    prev_vert = nullptr;
+    next_edge = nullptr;
+    prev_edge = nullptr;
+}
 
 
 /*-----------------------------------------SET------------------------------------------------------------------------*/
@@ -38,3 +45,4 @@ Vertice* Edge :: getNextVert() {return next_vert;}
 Vertice* Edge :: getPrevVert() {return prev_vert;}
 Edge* Edge :: getNextEdge() {return next_edge;}
 Edge* Edge :: getPrevEdge() {return prev_edge;}
+

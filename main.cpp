@@ -9,7 +9,7 @@ void printVertices(Vertice* tmp)
 
     while(tmp)
     {
-        cout << "Name : " << tmp -> getName() << endl;
+        cout << "Name : " << tmp -> getName() << "   Source : " << tmp -> getSource() << "   Sink : " << tmp -> getSink() << endl;
 
         Edge* t = tmp -> getEdges();
         if(t == nullptr)
@@ -34,7 +34,14 @@ void printVertices(Vertice* tmp)
 int main()
 {
     Vertice* head = new Vertice();
+
     head = head -> readText((char*)R"(D:\efrei\cours\s6\graph_theory\projet\txt\01.txt)");
     printVertices(head);
+
+    string** Adjacent = head -> adjacentMatrix(head);
+    string** Values = head -> valuesMatrix(head);
+    head -> printMatrix(Adjacent, 'A');
+    head -> printMatrix(Values, 'V');
+
     return 0;
 }

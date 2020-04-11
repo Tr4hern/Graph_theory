@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+D:/efrei/cours/s6/graph_theory/projet/ConsoleColor.h
+iostream
+-
+windows.h
+-
+
 D:/efrei/cours/s6/graph_theory/projet/Edge.h
 vector
 -
@@ -31,4 +37,6 @@ D:/efrei/cours/s6/graph_theory/projet/Vertice.h
 D:/efrei/cours/s6/graph_theory/projet/Vertice.h
 Edge.h
 D:/efrei/cours/s6/graph_theory/projet/Edge.h
+ConsoleColor.h
+D:/efrei/cours/s6/graph_theory/projet/ConsoleColor.h
 
