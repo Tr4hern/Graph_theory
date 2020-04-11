@@ -24,15 +24,15 @@ class Edge
 
     public:
         Edge();
-        Edge(const Edge&);
-        Edge& operator=(const Edge&);
+        Edge(const Edge &);
+        Edge& operator=(const Edge &);
         ~Edge();
 
-        void setWeight(int w);
-        void setNextVert(Vertice *vertice);
-        void setPrevVert(Vertice *vertice);
-        void setNextEdge(Edge *edge);
-        void setPrevEdge(Edge *edge);
+        void setWeight(int);
+        void setNextVert(Vertice *);
+        void setPrevVert(Vertice *);
+        void setNextEdge(Edge *);
+        void setPrevEdge(Edge *);
 
         int getWeight();
         Vertice* getNextVert();

@@ -15,8 +15,8 @@ int LENGHT_VERTICES = 0;
 int LENGHT_EDGES = 0;
 
 
-Vertice :: Vertice() : name(), source(true), sink(false), next(nullptr), prev(nullptr), edges(nullptr) {}
-Vertice :: Vertice(const Vertice & v) : name(v.name), source(v.source), sink(v.sink), next(v.next), prev(v.prev), edges(v.edges) {}
+Vertice :: Vertice() : name(), source(true), sink(false), next(nullptr), prev(nullptr), rank(-1), edges(nullptr) {}
+Vertice :: Vertice(const Vertice & v) : name(v.name), source(v.source), sink(v.sink), next(v.next), prev(v.prev), rank(v.rank), edges(v.edges) {}
 Vertice& Vertice :: operator=(const Vertice & v)
 {
     name = v.name;
@@ -24,6 +24,7 @@ Vertice& Vertice :: operator=(const Vertice & v)
     sink = v.sink;
     next = v.next;
     prev = v.prev;
+    rank = v.rank;
     edges = v.edges;
     return *this;
 }
@@ -70,6 +71,7 @@ void Vertice :: setSource(bool b) {source = b;}
 void Vertice :: setSink(bool b) {sink = b;}
 void Vertice :: setNext(Vertice* v) {next = v;}
 void Vertice :: setPrev(Vertice* v) {prev = v;}
+void Vertice :: setRank(int i) {rank = i;}
 
 Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
 {
@@ -138,18 +140,20 @@ bool Vertice :: getSink() {return sink;}
 bool Vertice :: getSource() {return source;}
 Vertice* Vertice :: getNext() {return next;}
 Vertice* Vertice :: getPrev() {return prev;}
+int Vertice :: getRank() {return rank;}
 Edge* Vertice :: getEdges() {return edges;}
 
 
 
 /*-------------------------------------MATRIX-------------------------------------------------------------------------*/
 
-string** Vertice :: initializer_matrix(char c)      // A for Adjency, V for Values
+string** Vertice :: initializer_matrix(char c)      // A for Adjacency, V for Values
 {
     string** adj = new string*[LENGHT_VERTICES + 1];
 
     for(int i = 0; i < LENGHT_VERTICES + 1; i++)
     {
+
         adj[i] = new string[LENGHT_VERTICES + 1];
 
         for(int j = 0; j < LENGHT_VERTICES + 1; j++)
@@ -230,7 +234,7 @@ string** Vertice :: valuesMatrix(Vertice* list)
 void Vertice ::printMatrix(string ** matrix, char c)
 {
     if(c == 'A')
-        cout << "Adjency Matrix" << endl;
+        cout << "Adjacency Matrix" << endl;
     else if(c == 'V')
         cout << "Values Matrix" << endl;
 
@@ -276,13 +280,106 @@ void Vertice ::printMatrix(string ** matrix, char c)
                 }
             }
 
-            if(j >= 9)
+            if(j > 9)
                 cout << " ";
         }
         cout << endl;
     }
 }
 
+
+
+
+Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
+{
+    Vertice* tmp = list;
+    int ddl[LENGHT_VERTICES];
+
+    for(int i = 0; i < LENGHT_VERTICES; i ++)
+        ddl[i] = -1;
+
+    int cpt = 0;
+    bool change = false;        // determine if we have found new sources or not (after deleting the previous ones)
+    bool finish = true;        // determine if there is a cycle or not
+
+    for(int i = 1; i < LENGHT_VERTICES + 1; i++)
+    {
+        for(int j = 1; j < LENGHT_VERTICES + 1; j++)
+        {
+            cpt += stoi(matrix[j][i]);
+        }
+
+        if(cpt == 0)
+        {
+
+            while( (tmp -> name).compare(matrix[0][i]) != 0 )
+            {
+                tmp = tmp -> next;
+            }
+
+            if(tmp -> rank == -1)
+            {
+                change = true;
+                tmp -> rank = rank;            // the aim is to attribute the value of the operation to the attribute "rank" of the vertice, we will reset it if there is a cycle
+
+                // we put the vertices to "delete" in an array to delete them at the end of the for loop
+                int e = 0;
+                while(ddl[e] != -1)
+                {
+                    if(e == LENGHT_VERTICES)
+                        break;
+                    else
+                        e += 1;
+                }
+
+                ddl[e] = stoi(matrix[0][i]);
+            }
+
+            tmp = list;
+        }
+        else
+            finish = false;     // there are still some possible sources
+
+
+        cpt = 0;
+    }
+
+
+
+    int i = 0;
+    while(ddl[i] != -1)
+    {
+        for(int j = 1; j < LENGHT_VERTICES + 1; j++)
+        {
+            if(ddl[i] == stoi(matrix[j][0]) )
+            {
+                for(int k = 1; k < LENGHT_VERTICES + 1; k++)
+                    matrix[j][k] = "0";
+            }
+        }
+
+        i++;
+    }
+
+    if(change == true  && finish == false)      // if we made some modification and there are still some possible sources
+        list = findRanks(matrix, list, rank + 1);
+
+    else if (change == false && finish == false)        // if we didn't make any modification but there are still some possible edges -> there is a cycle
+    {
+        cout << red << "There is a least 1 cycle, we can't determine rank" << white << endl;
+
+        while(tmp)
+        {
+            tmp -> rank = -1;
+            tmp = tmp -> next;
+        }
+
+        return list;
+    }
+
+    else            // there is no possible sources anymore AND we didn't make a change this time
+        return list;
+}
 
 
 /*-------------------------------------NOT IN VERTICE-----------------------------------------------------------------*/
