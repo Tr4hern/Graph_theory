@@ -10,7 +10,6 @@
 
 using namespace std;
 
-
 class Vertice;
 
 class Edge

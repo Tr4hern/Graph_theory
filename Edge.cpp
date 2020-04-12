@@ -20,12 +20,12 @@ Edge& Edge :: operator=(const Edge& e)
     return *this;
 }
 
-Edge::~Edge()
+Edge :: ~Edge()
 {
-    next_vert = nullptr;
-    prev_vert = nullptr;
-    next_edge = nullptr;
-    prev_edge = nullptr;
+    delete next_vert;
+    delete prev_vert;
+    delete next_edge;
+    delete prev_edge;
 }
 
 
@@ -35,7 +35,13 @@ void Edge :: setWeight(int w) {weight = w;}
 void Edge :: setNextVert(Vertice* vertice) {next_vert = vertice;}
 void Edge :: setPrevVert(Vertice* vertice) {prev_vert = vertice;}
 void Edge :: setNextEdge(Edge* edge) {next_edge = edge;}
-void Edge :: setPrevEdge(Edge* edge) {prev_edge = edge;}
+void Edge :: setPrevEdge(Edge* edge)
+{
+    if(edge == nullptr)
+        delete this;
+    else
+        prev_edge = edge;
+}
 
 
 /*-----------------------------------------GET------------------------------------------------------------------------*/

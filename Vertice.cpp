@@ -31,14 +31,14 @@ Vertice& Vertice :: operator=(const Vertice & v)
 
 Vertice::~Vertice()
 {
-    next = nullptr;
-    prev = nullptr;
+    delete next;
+    delete prev;
     while(edges -> getNextEdge() != nullptr)
     {
         edges = edges -> getNextEdge();
         edges -> setPrevEdge(nullptr);
     }
-    edges = nullptr;
+    delete edges;
 }
 
 Vertice* Vertice :: initializer_vertices(int lenght)
@@ -142,13 +142,13 @@ Vertice* Vertice :: getNext() {return next;}
 Vertice* Vertice :: getPrev() {return prev;}
 int Vertice :: getRank() {return rank;}
 Edge* Vertice :: getEdges() {return edges;}
-
+int Vertice :: getNbVertices() {return LENGHT_VERTICES;}
 
 
 /*-------------------------------------MATRIX-------------------------------------------------------------------------*/
 
-string** Vertice :: initializer_matrix(char c)      // A for Adjacency, V for Values
-{
+// A for Adjacency, V for Values
+string** Vertice :: initializer_matrix(char c) {
     string** adj = new string*[LENGHT_VERTICES + 1];
 
     for(int i = 0; i < LENGHT_VERTICES + 1; i++)
@@ -177,7 +177,6 @@ string** Vertice :: initializer_matrix(char c)      // A for Adjacency, V for Va
 
     return adj;
 }
-
 
 string** Vertice :: adjacentMatrix(Vertice * list)
 {
@@ -288,6 +287,7 @@ void Vertice ::printMatrix(string ** matrix, char c)
 }
 
 
+/*-------------------------------------RANK---------------------------------------------------------------------------*/
 
 
 Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
@@ -353,6 +353,7 @@ Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
         {
             if(ddl[i] == stoi(matrix[j][0]) )
             {
+                // we "destroy" the sources found by saying there is no edge going from them
                 for(int k = 1; k < LENGHT_VERTICES + 1; k++)
                     matrix[j][k] = "0";
             }
@@ -381,9 +382,250 @@ Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
         return list;
 }
 
+// the aim of this function is to return the list of vertice ordered by their ranks
+Vertice* Vertice :: listByRank(Vertice * list)
+{
+    Vertice* rankList = nullptr;
+    Vertice* tmpL = list;
+    Vertice* tmpR = nullptr;
+
+    int ranksFound[LENGHT_VERTICES];            // all the vertice of rank i
+
+
+
+    for(int i = 0; i < LENGHT_VERTICES; i++)
+    {
+        // we initialize the array at each passage
+        for(int j = 0; j < LENGHT_VERTICES; j++)
+            ranksFound[j] = -1;
+
+        // we find all the vertice of rank i
+        for(int j = 0; j < LENGHT_VERTICES; j++)
+        {
+            if(tmpL -> rank == i)
+            {
+                int e = 0;
+                while(ranksFound[e] != -1)
+                {
+                    if(e == LENGHT_VERTICES)
+                        break;
+                    else
+                        e += 1;
+                }
+                ranksFound[e] = stoi(tmpL -> name);
+            }
+            tmpL = tmpL -> next;
+        }
+
+
+        int j = 0;
+        while(ranksFound[j] != -1)
+        {
+            tmpL = list;
+            while( (tmpL -> name).compare(to_string(ranksFound[j]))  != 0 )
+                tmpL = tmpL -> next;
+
+            Vertice* newV = new Vertice(*tmpL);
+            newV -> prev = nullptr;
+            newV -> next = nullptr;
+
+            if(rankList == nullptr)
+                rankList = newV;
+            else
+            {
+                tmpR = rankList;
+                while(tmpR -> next != nullptr)
+                    tmpR = tmpR -> next;
+
+                newV -> prev = tmpR;
+                tmpR -> next = newV;
+            }
+
+            j++;
+        }
+
+        tmpL = list;
+    }
+
+    return rankList;
+}
+
+void Vertice :: printRank(Vertice* list)
+{
+    Vertice* tmp = list;
+
+    if(tmp -> getRank() != -1)      // if there is no cycle
+    {
+        cout << green << "Vertex    " << white;
+        while(tmp)
+        {
+            if(stoi(tmp -> getName()) < 9)
+                cout << tmp -> getName() << "  ";
+            else
+                cout << tmp -> getName() << " ";
+
+            tmp = tmp -> getNext();
+        }
+
+        tmp = list;
+
+        cout << endl << green << "Rank      " << white;
+        while(tmp)
+        {
+            if(stoi(tmp -> getName()) > 9)
+                cout << tmp -> getRank() << "  ";
+            else
+                cout << tmp -> getRank() << "  ";
+            tmp = tmp -> getNext();
+        }
+        cout << endl;
+    }
+}
+
+
+/*-------------------------------------SCHEDULING---------------------------------------------------------------------*/
+
+
+void Vertice :: scheduling(Vertice* list, Vertice* rank)
+{
+
+    Vertice* tmp = list;
+    int cpt = 0;        // Vertice with or whitout alpha and omega
+
+    while(tmp)
+    {
+        cpt++;
+        tmp = tmp -> next;
+    }
+
+    int earliestTime[cpt];
+    int latestTime[cpt];
+    int margin[cpt];
+
+    for(int i = 0; i < cpt; i++)
+    {
+        earliestTime[i] = 0;
+        latestTime[i] = 0;
+        margin[i] = 0;
+    }
+
+    tmp = list;
+
+    // calculation of the earliest time
+    while(tmp)
+    {
+        Edge* t = tmp -> edges;
+
+        while(t)
+        {
+            if(earliestTime[stoi(t -> getNextVert() -> getName() )] < (earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight()))
+                earliestTime[stoi(t -> getNextVert() -> getName() )] = earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight();
+
+            t = t -> getNextEdge();
+        }
+
+        if(tmp -> next == nullptr)
+            latestTime[cpt - 1] = earliestTime[cpt - 1];
+
+        tmp = tmp -> next;
+    }
+
+
+    // calculation of the latest path
+
+    tmp = rank;
+
+    while(tmp -> next != nullptr)
+        tmp = tmp -> next;
+
+    while(tmp)
+    {
+        Edge* t = tmp -> edges;
+
+
+        while(t)
+        {
+            if(latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight() >= 0)
+            {
+                if(latestTime[stoi(t -> getPrevVert() -> getName()) ] == 0)
+                latestTime[stoi(t -> getPrevVert() -> getName()) ] = latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight();
+
+            else if(latestTime[stoi(t -> getPrevVert() -> getName()) ] > (latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight()) )
+                latestTime[stoi(t -> getPrevVert() -> getName()) ] = latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight();
+            }
+
+            t = t -> getNextEdge();
+        }
+
+        tmp = tmp -> prev;
+    }
+
+
+    for(int i = 0; i < cpt; i++)
+        margin[i] = abs(earliestTime[i] - latestTime[i]);
+
+
+
+    printRank(list);
+
+
+
+    cout << green << "Earliest " << white;
+    tmp = list;
+    while(tmp)
+    {
+        int i = 0;
+        while(i != stoi(tmp -> getName()) )
+            i++;
+
+        if(earliestTime[i] > 9)
+            cout << earliestTime[i] << " " ;
+        else
+            cout << " " << earliestTime[i] << " " ;
+
+        tmp = tmp -> next;
+    }
+    cout << endl;
+
+    cout << green << "Latest   " << white;
+    tmp = list;
+    while(tmp)
+    {
+        int i = 0;
+        while(i != stoi(tmp -> getName()) )
+            i++;
+
+        if(latestTime[i] > 9)
+            cout << latestTime[i] << " " ;
+        else
+            cout << " " << latestTime[i] << " " ;
+
+        tmp = tmp -> next;
+    }
+    cout << endl;
+
+    cout << green << "Margin   " << white;
+    tmp = list;
+    while(tmp)
+    {
+        int i = 0;
+        while(i != stoi(tmp -> getName()) )
+            i++;
+
+        if(margin[i] > 9)
+            cout << margin[i] << " " ;
+        else
+            cout << " " << margin[i] << " " ;
+        tmp = tmp -> next;
+    }
+    cout << endl;
+
+}
+
+
+
 
 /*-------------------------------------NOT IN VERTICE-----------------------------------------------------------------*/
-
 
 vector<string> Split(const string& txt)
 {
@@ -444,11 +686,3 @@ Vertice* Vertice :: readText(char *fileName)
 
     return head;
 }
-
-
-
-
-
-
-
-

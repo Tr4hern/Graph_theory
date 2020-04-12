@@ -46,6 +46,7 @@ class Vertice
         Vertice* getPrev();
         int getRank();
         Edge* getEdges();
+        int getNbVertices();
 
 
         string **initializer_matrix(char);
@@ -53,10 +54,13 @@ class Vertice
         string **valuesMatrix(Vertice *);
         void printMatrix(string **, char);
 
+        Vertice* findRanks(string **, Vertice *, int);
+        Vertice* listByRank(Vertice*);
+        void printRank(Vertice *list);
+
+        void scheduling(Vertice*, Vertice*);
 
         Vertice* readText(char *);
-
-        Vertice* findRanks(string **, Vertice *, int);
 };
 
 
