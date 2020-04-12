@@ -2,7 +2,7 @@
 
 #include "Vertice.h"
 
-const char* PATH = R"(D:\efrei\cours\s6\graph_theory\projet\txt\)";
+const char* PATH = R"(..\txt\)";
 int BUFFER = 1000;
 
 
