@@ -12,7 +12,6 @@
 #include "Vertice.h"
 
 int LENGHT_VERTICES = 0;
-int LENGHT_EDGES = 0;
 
 
 Vertice :: Vertice() : name(), source(true), sink(false), next(nullptr), prev(nullptr), rank(-1), edges(nullptr) {}
@@ -36,7 +35,7 @@ Vertice::~Vertice()
     while(edges -> getNextEdge() != nullptr)
     {
         edges = edges -> getNextEdge();
-        edges -> setPrevEdge(nullptr);
+        delete (edges -> getPrevEdge());
     }
     delete edges;
 }
@@ -66,12 +65,7 @@ Vertice* Vertice :: initializer_vertices(int lenght)
 
 /*-----------------------------------------SET------------------------------------------------------------------------*/
 
-void Vertice :: setName(string str) {name = str;}
 void Vertice :: setSource(bool b) {source = b;}
-void Vertice :: setSink(bool b) {sink = b;}
-void Vertice :: setNext(Vertice* v) {next = v;}
-void Vertice :: setPrev(Vertice* v) {prev = v;}
-void Vertice :: setRank(int i) {rank = i;}
 
 Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
 {
@@ -82,7 +76,7 @@ Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
     newEdge -> setWeight((stoi(vectors[2]) ) );        // convert string to int
 
     /* find the ingoing vertex in the list */
-    while( (tmp -> name).compare(vectors[1]) != 0 )
+    while( (tmp -> name) != vectors[1] )
         tmp = tmp -> next;
     newEdge -> setNextVert(tmp);
     newEdge -> getNextVert() -> setSource(false);       // the vertex has at least 1 ingoing edge, so it is not a source
@@ -90,7 +84,7 @@ Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
     tmp = list;         // make sure we start at the beginning again
 
     /* find the outgoing vertex in the list */
-    while( (tmp -> name).compare(vectors[0]) != 0)
+    while( (tmp -> name) != vectors[0])
         tmp = tmp -> next;
     newEdge -> setPrevVert(tmp);
 
@@ -136,20 +130,15 @@ Vertice* Vertice :: findSinks(Vertice* list)
 
 
 string Vertice :: getName() {return name;}
-bool Vertice :: getSink() {return sink;}
-bool Vertice :: getSource() {return source;}
 Vertice* Vertice :: getNext() {return next;}
-Vertice* Vertice :: getPrev() {return prev;}
 int Vertice :: getRank() {return rank;}
-Edge* Vertice :: getEdges() {return edges;}
-int Vertice :: getNbVertices() {return LENGHT_VERTICES;}
 
 
 /*-------------------------------------MATRIX-------------------------------------------------------------------------*/
 
 // A for Adjacency, V for Values
 string** Vertice :: initializer_matrix(char c) {
-    string** adj = new string*[LENGHT_VERTICES + 1];
+    auto** adj = new string*[LENGHT_VERTICES + 1];
 
     for(int i = 0; i < LENGHT_VERTICES + 1; i++)
     {
@@ -164,7 +153,7 @@ string** Vertice :: initializer_matrix(char c) {
             else if(j == 0 && i != 0)
                 adj[i][j] = to_string(i - 1);
 
-            else if(j != 0 && i != 0)
+            else if(j != 0)
             {
                 if(c == 'V')
                     adj[i][j] = "*";
@@ -284,6 +273,7 @@ void Vertice ::printMatrix(string ** matrix, char c)
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 
@@ -312,7 +302,7 @@ Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
         if(cpt == 0)
         {
 
-            while( (tmp -> name).compare(matrix[0][i]) != 0 )
+            while( (tmp -> name) != matrix[0][i] )
             {
                 tmp = tmp -> next;
             }
@@ -362,10 +352,10 @@ Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
         i++;
     }
 
-    if(change == true  && finish == false)      // if we made some modification and there are still some possible sources
+    if(change && !finish)      // if we made some modification and there are still some possible sources
         list = findRanks(matrix, list, rank + 1);
 
-    else if (change == false && finish == false)        // if we didn't make any modification but there are still some possible edges -> there is a cycle
+    else if (!change && !finish)        // if we didn't make any modification but there are still some possible edges -> there is a cycle
     {
         cout << red << "There is a least 1 cycle, we can't determine rank" << white << endl;
 
@@ -422,10 +412,10 @@ Vertice* Vertice :: listByRank(Vertice * list)
         while(ranksFound[j] != -1)
         {
             tmpL = list;
-            while( (tmpL -> name).compare(to_string(ranksFound[j]))  != 0 )
+            while( (tmpL -> name)  != to_string(ranksFound[j]) )
                 tmpL = tmpL -> next;
 
-            Vertice* newV = new Vertice(*tmpL);
+            auto* newV = new Vertice(*tmpL);
             newV -> prev = nullptr;
             newV -> next = nullptr;
 
@@ -486,143 +476,195 @@ void Vertice :: printRank(Vertice* list)
 /*-------------------------------------SCHEDULING---------------------------------------------------------------------*/
 
 
-void Vertice :: scheduling(Vertice* list, Vertice* rank)
+bool Vertice :: checkScheduling(Vertice* list)
 {
+    int nbSource = 0;
+    int nbSink = 0;
+    bool cycle = false;
+    bool valueEdge = true;
+    bool outgoingAt0 = true;
+    bool negativeEdge = false;
 
     Vertice* tmp = list;
-    int cpt = 0;        // Vertice with or whitout alpha and omega
+
+    if(tmp -> rank == -1)
+        cycle = true;
 
     while(tmp)
     {
-        cpt++;
-        tmp = tmp -> next;
-    }
+        if(tmp -> source)
+            nbSource += 1;
 
-    int earliestTime[cpt];
-    int latestTime[cpt];
-    int margin[cpt];
+        if(tmp -> sink)
+            nbSink += 1;
 
-    for(int i = 0; i < cpt; i++)
-    {
-        earliestTime[i] = 0;
-        latestTime[i] = 0;
-        margin[i] = 0;
-    }
-
-    tmp = list;
-
-    // calculation of the earliest time
-    while(tmp)
-    {
         Edge* t = tmp -> edges;
-
-        while(t)
+        if(t != nullptr)
         {
-            if(earliestTime[stoi(t -> getNextVert() -> getName() )] < (earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight()))
-                earliestTime[stoi(t -> getNextVert() -> getName() )] = earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight();
+            int currentValue = t -> getWeight();
 
-            t = t -> getNextEdge();
-        }
-
-        if(tmp -> next == nullptr)
-            latestTime[cpt - 1] = earliestTime[cpt - 1];
-
-        tmp = tmp -> next;
-    }
-
-
-    // calculation of the latest path
-
-    tmp = rank;
-
-    while(tmp -> next != nullptr)
-        tmp = tmp -> next;
-
-    while(tmp)
-    {
-        Edge* t = tmp -> edges;
-
-
-        while(t)
-        {
-            if(latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight() >= 0)
+            while(t)
             {
-                if(latestTime[stoi(t -> getPrevVert() -> getName()) ] == 0)
-                latestTime[stoi(t -> getPrevVert() -> getName()) ] = latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight();
+                if(t -> getWeight() < 0)
+                    negativeEdge = true;
 
-            else if(latestTime[stoi(t -> getPrevVert() -> getName()) ] > (latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight()) )
-                latestTime[stoi(t -> getPrevVert() -> getName()) ] = latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight();
+                if(currentValue != t -> getWeight())
+                    valueEdge = false;
+
+                if(tmp -> source && t -> getWeight() != 0)
+                    outgoingAt0 = false;
+
+                currentValue = t -> getWeight();
+                t = t -> getNextEdge();
             }
-
-            t = t -> getNextEdge();
         }
 
-        tmp = tmp -> prev;
-    }
-
-
-    for(int i = 0; i < cpt; i++)
-        margin[i] = abs(earliestTime[i] - latestTime[i]);
-
-
-
-    printRank(list);
-
-
-
-    cout << green << "Earliest " << white;
-    tmp = list;
-    while(tmp)
-    {
-        int i = 0;
-        while(i != stoi(tmp -> getName()) )
-            i++;
-
-        if(earliestTime[i] > 9)
-            cout << earliestTime[i] << " " ;
-        else
-            cout << " " << earliestTime[i] << " " ;
 
         tmp = tmp -> next;
     }
-    cout << endl;
 
-    cout << green << "Latest   " << white;
-    tmp = list;
-    while(tmp)
-    {
-        int i = 0;
-        while(i != stoi(tmp -> getName()) )
-            i++;
-
-        if(latestTime[i] > 9)
-            cout << latestTime[i] << " " ;
-        else
-            cout << " " << latestTime[i] << " " ;
-
-        tmp = tmp -> next;
-    }
-    cout << endl;
-
-    cout << green << "Margin   " << white;
-    tmp = list;
-    while(tmp)
-    {
-        int i = 0;
-        while(i != stoi(tmp -> getName()) )
-            i++;
-
-        if(margin[i] > 9)
-            cout << margin[i] << " " ;
-        else
-            cout << " " << margin[i] << " " ;
-        tmp = tmp -> next;
-    }
-    cout << endl;
-
+    return (!cycle && valueEdge && outgoingAt0 && !negativeEdge && nbSource == 1 && nbSink == 1);
 }
 
 
+void Vertice :: scheduling(Vertice* list, Vertice* ranks)
+{
+    if(checkScheduling(list))
+    {
+
+        Vertice* tmp = list;
+        int cpt = 0;        // Vertice with or whitout alpha and omega
+
+        while(tmp)
+        {
+            cpt++;
+            tmp = tmp -> next;
+        }
+
+        int earliestTime[cpt];
+        int latestTime[cpt];
+        int margin[cpt];
+
+        for(int i = 0; i < cpt; i++)
+        {
+            earliestTime[i] = 0;
+            latestTime[i] = 0;
+            margin[i] = 0;
+        }
+
+        tmp = list;
+
+        // calculation of the earliest time
+        while(tmp)
+        {
+            Edge* t = tmp -> edges;
+
+            while(t)
+            {
+                if(earliestTime[stoi(t -> getNextVert() -> getName() )] < (earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight()))
+                    earliestTime[stoi(t -> getNextVert() -> getName() )] = earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight();
+
+                t = t -> getNextEdge();
+            }
+
+            if(tmp -> next == nullptr)
+                latestTime[cpt - 1] = earliestTime[cpt - 1];
+
+            tmp = tmp -> next;
+        }
+
+
+        // calculation of the latest path
+
+        tmp = ranks;
+
+        while(tmp -> next != nullptr)
+            tmp = tmp -> next;
+
+        while(tmp)
+        {
+            Edge* t = tmp -> edges;
+
+
+            while(t)
+            {
+                if(latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight() >= 0)
+                {
+                    if(latestTime[stoi(t -> getPrevVert() -> getName()) ] > (latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight())
+                            ||  latestTime[stoi(t -> getPrevVert() -> getName()) ] == 0)
+                        latestTime[stoi(t -> getPrevVert() -> getName()) ] = latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight();
+                }
+
+                t = t -> getNextEdge();
+            }
+
+            tmp = tmp -> prev;
+        }
+
+
+        for(int i = 0; i < cpt; i++)
+            margin[i] = abs(earliestTime[i] - latestTime[i]);
+
+
+
+        printRank(list);
+
+
+
+        cout << green << "Earliest " << white;
+        tmp = list;
+        while(tmp)
+        {
+            int i = 0;
+            while(i != stoi(tmp -> getName()) )
+                i++;
+
+            if(earliestTime[i] > 9)
+                cout << earliestTime[i] << " " ;
+            else
+                cout << " " << earliestTime[i] << " " ;
+
+            tmp = tmp -> next;
+        }
+        cout << endl;
+
+        cout << green << "Latest   " << white;
+        tmp = list;
+        while(tmp)
+        {
+            int i = 0;
+            while(i != stoi(tmp -> getName()) )
+                i++;
+
+            if(latestTime[i] > 9)
+                cout << latestTime[i] << " " ;
+            else
+                cout << " " << latestTime[i] << " " ;
+
+            tmp = tmp -> next;
+        }
+        cout << endl;
+
+        cout << green << "Margin   " << white;
+        tmp = list;
+        while(tmp)
+        {
+            int i = 0;
+            while(i != stoi(tmp -> getName()) )
+                i++;
+
+            if(margin[i] > 9)
+                cout << margin[i] << " " ;
+            else
+                cout << " " << margin[i] << " " ;
+            tmp = tmp -> next;
+        }
+        cout << endl;
+
+    }
+    else
+        cout << red << "The graph can not be scheduled in consideration to the properties asked" << white << endl;
+}
 
 
 /*-------------------------------------NOT IN VERTICE-----------------------------------------------------------------*/
@@ -636,6 +678,34 @@ vector<string> Split(const string& txt)
 }
 
 
+
+void Vertice :: printVertices(Vertice* list)
+{
+    Vertice* tmp = list;
+
+    while(tmp)
+    {
+        cout << green << "Vertex " << tmp -> name << white << endl;
+
+        Edge* t = tmp -> edges;
+
+        if(t == nullptr)
+            cout << "No transition" << endl;
+        else
+        {
+            while(t != nullptr)
+            {
+
+                cout <<  t -> getPrevVert() -> getName() << " -> " << t -> getNextVert() -> getName() << " = " << t -> getWeight() << endl;
+
+                t = t -> getNextEdge();
+            }
+        }
+
+        cout << endl;
+        tmp = tmp -> next;
+    }
+}
 
 
 /*-------------------------------------READ TEXT----------------------------------------------------------------------*/
@@ -666,7 +736,6 @@ Vertice* Vertice :: readText(char *fileName)
 
     /* We save the number of edges */
     fscanf(file, "%d\n", &NumberOfEdges);
-    LENGHT_EDGES = NumberOfEdges;
 
     for(int i = 0; i < NumberOfEdges; i++)
     {

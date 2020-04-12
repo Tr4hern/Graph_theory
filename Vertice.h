@@ -30,37 +30,29 @@ class Vertice
         ~Vertice();
         static Vertice* initializer_vertices(int);
 
-        void setName(string);
         void setSource(bool);
-        void setSink(bool);
-        void setNext(Vertice *);
-        void setPrev(Vertice *);
-        void setRank(int);
-        Vertice* setEdges(const vector<string> &, Vertice *);
-        Vertice* findSinks(Vertice *);
+        static Vertice* setEdges(const vector<string> &, Vertice *);
+        static Vertice* findSinks(Vertice *);
 
         string getName();
-        bool getSource();
-        bool getSink();
         Vertice* getNext();
-        Vertice* getPrev();
         int getRank();
-        Edge* getEdges();
-        int getNbVertices();
 
+        static string** initializer_matrix(char);
+        static string** adjacentMatrix(Vertice *);
+        static string** valuesMatrix(Vertice *);
+        static void printMatrix(string **, char);
 
-        string **initializer_matrix(char);
-        string** adjacentMatrix(Vertice *);
-        string **valuesMatrix(Vertice *);
-        void printMatrix(string **, char);
+        static Vertice* findRanks(string **, Vertice *, int);
+        static Vertice* listByRank(Vertice*);
+        static void printRank(Vertice *list);
 
-        Vertice* findRanks(string **, Vertice *, int);
-        Vertice* listByRank(Vertice*);
-        void printRank(Vertice *list);
+        static bool checkScheduling(Vertice *list);
+        static void scheduling(Vertice*, Vertice*);
 
-        void scheduling(Vertice*, Vertice*);
+        static void printVertices(Vertice *list);
 
-        Vertice* readText(char *);
+        static Vertice* readText(char *);
 };
 
 
