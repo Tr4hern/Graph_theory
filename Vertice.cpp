@@ -544,12 +544,14 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks)
         int earliestTime[cpt];
         int latestTime[cpt];
         int margin[cpt];
+        string shortestPath[cpt];
 
         for(int i = 0; i < cpt; i++)
         {
             earliestTime[i] = 0;
-            latestTime[i] = 0;
+            latestTime[i] = -1;
             margin[i] = 0;
+            shortestPath[i] = '\0';
         }
 
         tmp = list;
@@ -561,6 +563,7 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks)
 
             while(t)
             {
+                // if the value of the vertexwe are going to is inferior to the new one, we keep the new one
                 if(earliestTime[stoi(t -> getNextVert() -> getName() )] < (earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight()))
                     earliestTime[stoi(t -> getNextVert() -> getName() )] = earliestTime[stoi(t -> getPrevVert() -> getName() )] + t -> getWeight();
 
@@ -588,11 +591,16 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks)
 
             while(t)
             {
+                // if the value we have minus the weight of the edge is positive (important because we keep the smallest one but we need it to be positive)
                 if(latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight() >= 0)
                 {
+                    //if the value we already is superior to the new value or the value of the box is -1 (it was not visited yet)
                     if(latestTime[stoi(t -> getPrevVert() -> getName()) ] > (latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight())
-                            ||  latestTime[stoi(t -> getPrevVert() -> getName()) ] == 0)
+                            ||  latestTime[stoi(t -> getPrevVert() -> getName()) ] == -1)
+                    {
                         latestTime[stoi(t -> getPrevVert() -> getName()) ] = latestTime[stoi(t -> getNextVert() -> getName()) ] - t -> getWeight();
+                        shortestPath[stoi(t -> getPrevVert() -> getName()) ] = t -> getNextVert() -> getName();                                     // we determine it was the shortest path if we are going thru this vertex later
+                    }
                 }
 
                 t = t -> getNextEdge();
@@ -619,6 +627,7 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks)
             while(i != stoi(tmp -> getName()) )
                 i++;
 
+            // just a beautiful print
             if(earliestTime[i] > 9)
                 cout << earliestTime[i] << " " ;
             else
@@ -650,16 +659,36 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks)
         while(tmp)
         {
             int i = 0;
-            while(i != stoi(tmp -> getName()) )
+            while(i != stoi(tmp -> name) )
                 i++;
 
             if(margin[i] > 9)
                 cout << margin[i] << " " ;
             else
                 cout << " " << margin[i] << " " ;
+
             tmp = tmp -> next;
         }
         cout << endl;
+
+        cout << green << "Shortest Path : " << white;
+        // we start at the source
+        tmp = ranks;
+        while(!tmp -> source)
+            tmp = tmp -> next;
+
+        // we take its emplacement in the array
+        int i = stoi(tmp -> name);
+
+        cout << tmp -> name;
+
+        // while we did not found the sink, we continue to check which vertex we pass thru
+        do
+        {
+            cout << " -> " << shortestPath[i];
+            i = stoi(shortestPath[i]);
+        }while(stoi(shortestPath[i]) != cpt - 1);
+        cout << " -> " << cpt - 1 << endl;
 
     }
     else
