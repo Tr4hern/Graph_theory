@@ -18,25 +18,15 @@ vector
 string
 -
 
-D:/efrei/cours/s6/graph_theory/projet/Vertice.cpp
-iostream
--
-sstream
--
-iterator
--
-cstring
--
-cstdio
--
-vector
--
-Vertice.h
-D:/efrei/cours/s6/graph_theory/projet/Vertice.h
-
 D:/efrei/cours/s6/graph_theory/projet/Vertice.h
 Edge.h
 D:/efrei/cours/s6/graph_theory/projet/Edge.h
 ConsoleColor.h
 D:/efrei/cours/s6/graph_theory/projet/ConsoleColor.h
+
+D:/efrei/cours/s6/graph_theory/projet/main.cpp
+iostream
+-
+Vertice.h
+D:/efrei/cours/s6/graph_theory/projet/Vertice.h
 

@@ -17,13 +17,19 @@ int main()
         char str[BUFFER];
         char save[BUFFER];
 
+        for(int i = 0; i < BUFFER; i++)
+        {
+            str[i] = '\0';
+            save[i] = '\0';
+        }
+
         for(int i = 1; i < 13; i++)
         {
             if(i > 9)
-                sprintf(str, "%s%d%s", PATH, graph, ".txt");
+                sprintf(str, "%s%d%s", SAVE, i, ".txt");
             else
-                sprintf(str, "%s%d%d%s", PATH, 0, graph, ".txt");
-            Vertice :: initSaves(str);
+                sprintf(str, "%s%d%d%s", SAVE, 0, i, ".txt");
+            Vertice :: initSaves(str, i);
         }
 
         for(int i = 0; i < BUFFER; i++)
@@ -36,7 +42,7 @@ int main()
         {
             cout << "Which graph do you want to test ? (0 to test all)" << endl;
             cin >> graph;
-        }while(graph < 0 || graph > 13);
+        }while(graph < 0 || graph > 12);
 
         if(graph == 0)
         {

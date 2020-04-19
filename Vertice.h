@@ -58,7 +58,7 @@ class Vertice
         static void errorSaves(char *);
         static void timeSaves(char *, int *, Vertice *, char c);
         static void shortSaves(char *, string *, Vertice *);
-        static void initSaves(char *);
+        static void initSaves(char *, int);
 };
 
 

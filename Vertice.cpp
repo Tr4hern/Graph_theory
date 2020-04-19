@@ -833,7 +833,7 @@ void Vertice :: matSaves(char* fileName, string** mat, char c)
     FILE* file = fopen(fileName, "at");
 
     if(c == 'A')
-        fputs("Adjaceny Matrix\n", file);
+        fputs("\nAdjaceny Matrix\n", file);
     else
         fputs("Values Matrix\n", file);
 
@@ -1053,9 +1053,11 @@ void Vertice :: shortSaves(char* fileName, string* path, Vertice * list)
     fclose(file);
 }
 
-void Vertice :: initSaves(char* fileName)
+void Vertice :: initSaves(char* fileName, int graph)
 {
     FILE* file = fopen(fileName, "w+");
-    fputs("", file);
+    char str[BUFF];
+    sprintf(str, "Graph %d", graph);
+    fputs(str, file);
     fclose(file);
 }
