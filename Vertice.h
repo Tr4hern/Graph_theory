@@ -5,12 +5,8 @@
 #ifndef PROJET_VERTICE_H
 #define PROJET_VERTICE_H
 
-
-
 #include "Edge.h"
-
 #include "ConsoleColor.h"
-
 
 class Vertice
 {
@@ -30,6 +26,8 @@ class Vertice
         ~Vertice();
         static Vertice* initializer_vertices(int);
 
+        static void printVertices(Vertice *);
+
         void setSource(bool);
         static Vertice* setEdges(const vector<string> &, Vertice *);
         static Vertice* findSinks(Vertice *);
@@ -44,15 +42,16 @@ class Vertice
         static void printMatrix(string **, char);
 
         static Vertice* findRanks(string **, Vertice *, int);
-        static Vertice* listByRank(Vertice*);
-        static void printRank(Vertice *list);
+        static Vertice* listByRank(Vertice *);
+        static void printRank(Vertice *);
 
-        static bool checkScheduling(Vertice *list);
-        static void scheduling(Vertice*, Vertice*);
+        static bool checkScheduling(Vertice *);
+        static void scheduling(Vertice *, Vertice *);
 
-        static void printVertices(Vertice *list);
+        static void makeGraph(char *str);
 
         static Vertice* readText(char *);
+
 };
 
 

@@ -63,6 +63,37 @@ Vertice* Vertice :: initializer_vertices(int lenght)
 }
 
 
+
+
+void Vertice :: printVertices(Vertice* list)
+{
+    Vertice* tmp = list;
+
+    while(tmp)
+    {
+        cout << green << "Vertex " << tmp -> name << white << endl;
+
+        Edge* t = tmp -> edges;
+
+        if(t == nullptr)
+            cout << "No transition" << endl;
+        else
+        {
+            while(t != nullptr)
+            {
+
+                cout <<  t -> getPrevVert() -> getName() << " -> " << t -> getNextVert() -> getName() << " = " << t -> getWeight() << endl;
+
+                t = t -> getNextEdge();
+            }
+        }
+
+        cout << endl;
+        tmp = tmp -> next;
+    }
+}
+
+
 /*-----------------------------------------SET------------------------------------------------------------------------*/
 
 void Vertice :: setSource(bool b) {source = b;}
@@ -707,33 +738,24 @@ vector<string> Split(const string& txt)
 }
 
 
-
-void Vertice :: printVertices(Vertice* list)
+void Vertice :: makeGraph(char* str)
 {
-    Vertice* tmp = list;
+    auto* head = new Vertice();
+    auto* rank = new Vertice();
 
-    while(tmp)
-    {
-        cout << green << "Vertex " << tmp -> name << white << endl;
+    head = head -> readText(str);
+    Vertice :: printVertices(head);
 
-        Edge* t = tmp -> edges;
+    string** Adjacent = Vertice :: adjacentMatrix(head);
+    string** Values = Vertice :: valuesMatrix(head);
 
-        if(t == nullptr)
-            cout << "No transition" << endl;
-        else
-        {
-            while(t != nullptr)
-            {
+    Vertice :: printMatrix(Adjacent, 'A');
+    Vertice :: printMatrix(Values, 'V');
 
-                cout <<  t -> getPrevVert() -> getName() << " -> " << t -> getNextVert() -> getName() << " = " << t -> getWeight() << endl;
+    Vertice :: findRanks(Adjacent, head, 0);
 
-                t = t -> getNextEdge();
-            }
-        }
-
-        cout << endl;
-        tmp = tmp -> next;
-    }
+    rank = Vertice :: listByRank(head);
+    rank -> scheduling(head, rank);
 }
 
 
@@ -784,3 +806,6 @@ Vertice* Vertice :: readText(char *fileName)
 
     return head;
 }
+
+
+/*-------------------------------------SAVE TEXT----------------------------------------------------------------------*/
