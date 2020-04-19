@@ -15,9 +15,22 @@ int main()
     {
         int graph = 0;
         char str[BUFFER];
+        char save[BUFFER];
+
+        for(int i = 1; i < 13; i++)
+        {
+            if(i > 9)
+                sprintf(str, "%s%d%s", PATH, graph, ".txt");
+            else
+                sprintf(str, "%s%d%d%s", PATH, 0, graph, ".txt");
+            Vertice :: initSaves(str);
+        }
 
         for(int i = 0; i < BUFFER; i++)
+        {
             str[i] = '\0';
+            save[i] = '\0';
+        }
 
         do
         {
@@ -28,29 +41,45 @@ int main()
         if(graph == 0)
         {
             for(int i = 0; i < BUFFER; i++)
+            {
                 str[i] = '\0';
+                save[i] = '\0';
+            }
 
             for(int graph = 1; graph < 13; graph++)
             {
                 cout << "--------------------------------------------------------Graph " << graph << " --------------------------------------------------------" << endl;
                 if(graph > 9)
+                {
                     sprintf(str, "%s%d%s", PATH, graph, ".txt");
+                    sprintf(save, "%s%d%s", SAVE, graph, ".txt");
+                }
                 else
+                {
                     sprintf(str, "%s%d%d%s", PATH, 0, graph, ".txt");
+                    sprintf(save, "%s%d%d%s", SAVE, 0, graph, ".txt");
+                }
 
-                Vertice :: makeGraph(str);
+                Vertice :: makeGraph(str, save);
             }
         }
+
         else
         {
             cout << "--------------------------------------------------------Graph " << graph << " --------------------------------------------------------" << endl;
 
             if(graph > 9)
+            {
                 sprintf(str, "%s%d%s", PATH, graph, ".txt");
+                sprintf(save, "%s%d%s", SAVE, graph, ".txt");
+            }
             else
+            {
                 sprintf(str, "%s%d%d%s", PATH, 0, graph, ".txt");
+                sprintf(save, "%s%d%d%s", SAVE, 0, graph, ".txt");
+            }
 
-            Vertice :: makeGraph(str);
+            Vertice :: makeGraph(str, save);
 
         }
 

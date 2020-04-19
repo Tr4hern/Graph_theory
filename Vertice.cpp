@@ -11,7 +11,8 @@
 
 #include "Vertice.h"
 
-int LENGHT_VERTICES = 0;
+int NB_VERTICES = 0;
+int BUFF = 1000;
 
 
 Vertice :: Vertice() : name(), source(true), sink(false), next(nullptr), prev(nullptr), rank(-1), edges(nullptr) {}
@@ -169,14 +170,14 @@ int Vertice :: getRank() {return rank;}
 
 // A for Adjacency, V for Values
 string** Vertice :: initializer_matrix(char c) {
-    auto** adj = new string*[LENGHT_VERTICES + 1];
+    auto** adj = new string*[NB_VERTICES + 1];
 
-    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    for(int i = 0; i < NB_VERTICES + 1; i++)
     {
 
-        adj[i] = new string[LENGHT_VERTICES + 1];
+        adj[i] = new string[NB_VERTICES + 1];
 
-        for(int j = 0; j < LENGHT_VERTICES + 1; j++)
+        for(int j = 0; j < NB_VERTICES + 1; j++)
         {
             if(i == 0 && j != 0)
                 adj[i][j] = to_string(j - 1);
@@ -205,7 +206,7 @@ string** Vertice :: adjacentMatrix(Vertice * list)
     Vertice* tmp = list;
     Edge* t = nullptr;
 
-    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    for(int i = 0; i < NB_VERTICES + 1; i++)
     {
         if(i > 0)
         {
@@ -231,7 +232,7 @@ string** Vertice :: valuesMatrix(Vertice* list)
     Vertice* tmp = list;
     Edge* t = nullptr;
 
-    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    for(int i = 0; i < NB_VERTICES + 1; i++)
     {
         if(i > 0)
         {
@@ -258,13 +259,13 @@ void Vertice ::printMatrix(string ** matrix, char c)
         cout << "Values Matrix" << endl;
 
 
-    for(int i = 0; i < LENGHT_VERTICES + 1; i++)
+    for(int i = 0; i < NB_VERTICES + 1; i++)
     {
 
         if(i < 11 )
             cout << " ";
 
-        for(int j = 0; j < LENGHT_VERTICES + 1; j++)
+        for(int j = 0; j < NB_VERTICES + 1; j++)
         {
             if(i == 0 && j <= 10)
                 cout << "  " << red << matrix[i][j] << white;
@@ -314,18 +315,18 @@ void Vertice ::printMatrix(string ** matrix, char c)
 Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
 {
     Vertice* tmp = list;
-    int ddl[LENGHT_VERTICES];
+    int ddl[NB_VERTICES];
 
-    for(int i = 0; i < LENGHT_VERTICES; i ++)
+    for(int i = 0; i < NB_VERTICES; i ++)
         ddl[i] = -1;
 
     int cpt = 0;
     bool change = false;        // determine if we have found new sources or not (after deleting the previous ones)
     bool finish = true;        // determine if there is a cycle or not
 
-    for(int i = 1; i < LENGHT_VERTICES + 1; i++)
+    for(int i = 1; i < NB_VERTICES + 1; i++)
     {
-        for(int j = 1; j < LENGHT_VERTICES + 1; j++)
+        for(int j = 1; j < NB_VERTICES + 1; j++)
         {
             cpt += stoi(matrix[j][i]);
         }
@@ -347,7 +348,7 @@ Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
                 int e = 0;
                 while(ddl[e] != -1)
                 {
-                    if(e == LENGHT_VERTICES)
+                    if(e == NB_VERTICES)
                         break;
                     else
                         e += 1;
@@ -370,12 +371,12 @@ Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
     int i = 0;
     while(ddl[i] != -1)
     {
-        for(int j = 1; j < LENGHT_VERTICES + 1; j++)
+        for(int j = 1; j < NB_VERTICES + 1; j++)
         {
             if(ddl[i] == stoi(matrix[j][0]) )
             {
                 // we "destroy" the sources found by saying there is no edge going from them
-                for(int k = 1; k < LENGHT_VERTICES + 1; k++)
+                for(int k = 1; k < NB_VERTICES + 1; k++)
                     matrix[j][k] = "0";
             }
         }
@@ -401,6 +402,8 @@ Vertice* Vertice :: findRanks(string** matrix, Vertice* list, int rank)
 
     else            // there is no possible sources anymore AND we didn't make a change this time
         return list;
+
+    return list;
 }
 
 // the aim of this function is to return the list of vertice ordered by their ranks
@@ -410,25 +413,25 @@ Vertice* Vertice :: listByRank(Vertice * list)
     Vertice* tmpL = list;
     Vertice* tmpR = nullptr;
 
-    int ranksFound[LENGHT_VERTICES];            // all the vertice of rank i
+    int ranksFound[NB_VERTICES];            // all the vertice of rank i
 
 
 
-    for(int i = 0; i < LENGHT_VERTICES; i++)
+    for(int i = 0; i < NB_VERTICES; i++)
     {
         // we initialize the array at each passage
-        for(int j = 0; j < LENGHT_VERTICES; j++)
+        for(int j = 0; j < NB_VERTICES; j++)
             ranksFound[j] = -1;
 
         // we find all the vertice of rank i
-        for(int j = 0; j < LENGHT_VERTICES; j++)
+        for(int j = 0; j < NB_VERTICES; j++)
         {
             if(tmpL -> rank == i)
             {
                 int e = 0;
                 while(ranksFound[e] != -1)
                 {
-                    if(e == LENGHT_VERTICES)
+                    if(e == NB_VERTICES)
                         break;
                     else
                         e += 1;
@@ -507,7 +510,7 @@ void Vertice :: printRank(Vertice* list)
 /*-------------------------------------SCHEDULING---------------------------------------------------------------------*/
 
 
-bool Vertice :: checkScheduling(Vertice* list)
+bool Vertice :: checkScheduling(Vertice* list, char* save)
 {
     int nbSource = 0;
     int nbSink = 0;
@@ -554,13 +557,16 @@ bool Vertice :: checkScheduling(Vertice* list)
         tmp = tmp -> next;
     }
 
+    if(!(!cycle && valueEdge && outgoingAt0 && !negativeEdge && nbSource == 1 && nbSink == 1) )
+        errorSaves(save);
+
     return (!cycle && valueEdge && outgoingAt0 && !negativeEdge && nbSource == 1 && nbSink == 1);
 }
 
 
-void Vertice :: scheduling(Vertice* list, Vertice* ranks)
+void Vertice :: scheduling(Vertice* list, Vertice* ranks, char* save)
 {
-    if(checkScheduling(list))
+    if(checkScheduling(list, save))
     {
 
         Vertice* tmp = list;
@@ -721,6 +727,10 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks)
         }while(stoi(shortestPath[i]) != cpt - 1);
         cout << " -> " << cpt - 1 << endl;
 
+        timeSaves(save, earliestTime, list, 'E');
+        timeSaves(save, latestTime, list, 'L');
+        timeSaves(save, margin, list, 'M');
+        shortSaves(save, shortestPath, ranks);
     }
     else
         cout << red << "The graph can not be scheduled in consideration to the properties asked" << white << endl;
@@ -738,28 +748,34 @@ vector<string> Split(const string& txt)
 }
 
 
-void Vertice :: makeGraph(char* str)
+
+
+/*-------------------------------------READ TEXT----------------------------------------------------------------------*/
+
+
+void Vertice :: makeGraph(char* str, char* save)
 {
     auto* head = new Vertice();
     auto* rank = new Vertice();
 
     head = head -> readText(str);
-    Vertice :: printVertices(head);
+    printVertices(head);
 
-    string** Adjacent = Vertice :: adjacentMatrix(head);
-    string** Values = Vertice :: valuesMatrix(head);
+    string** Adjacent = adjacentMatrix(head);
+    string** Values = valuesMatrix(head);
 
-    Vertice :: printMatrix(Adjacent, 'A');
-    Vertice :: printMatrix(Values, 'V');
+    printMatrix(Adjacent, 'A');
+    printMatrix(Values, 'V');
 
-    Vertice :: findRanks(Adjacent, head, 0);
+    matSaves(save, Adjacent, 'A');
+    matSaves(save, Values, 'V');
 
-    rank = Vertice :: listByRank(head);
-    rank -> scheduling(head, rank);
+    findRanks(Adjacent, head, 0);
+    rankSaves(save, head);
+
+    rank = listByRank(head);
+    rank -> scheduling(head, rank, save);
 }
-
-
-/*-------------------------------------READ TEXT----------------------------------------------------------------------*/
 
 Vertice* Vertice :: readText(char *fileName)
 {
@@ -782,7 +798,7 @@ Vertice* Vertice :: readText(char *fileName)
 
     /* We save the number of vertices */
     fscanf(file, "%d", &NumberOfVertices);
-    LENGHT_VERTICES = NumberOfVertices;
+    NB_VERTICES = NumberOfVertices;
     head = initializer_vertices(NumberOfVertices);
 
     /* We save the number of edges */
@@ -809,3 +825,237 @@ Vertice* Vertice :: readText(char *fileName)
 
 
 /*-------------------------------------SAVE TEXT----------------------------------------------------------------------*/
+
+void Vertice :: matSaves(char* fileName, string** mat, char c)
+{
+
+    char str[BUFF];
+    FILE* file = fopen(fileName, "at");
+
+    if(c == 'A')
+        fputs("Adjaceny Matrix\n", file);
+    else
+        fputs("Values Matrix\n", file);
+
+    for(int i = 0; i < NB_VERTICES + 1; i++)
+    {
+        for(int j = 0; j < BUFF; j++)
+            str[j] = '\0';
+
+        if(i < 11 )
+            fputs(" ", file);
+
+        for(int j = 0; j < NB_VERTICES + 1; j++)
+        {
+            if(i == 0 && j <= 10)
+            {
+                fputs("  ", file);
+                strcpy(str, mat[i][j].c_str() );
+                fputs(str, file);
+            }
+
+            else if (i == 0 && j > 10)
+            {
+                fputs(" ", file);
+                strcpy(str, mat[i][j].c_str() );
+                fputs(str, file);
+            }
+
+            else if (j == 0 && i != 0)
+            {
+                fputs("  ", file);
+                strcpy(str, mat[i][j].c_str() );
+                fputs(str, file);
+            }
+
+            else
+            {
+                if(c == 'A')
+                {
+                    fputs(" ", file);
+                    strcpy(str, mat[i][j].c_str() );
+                    fputs(str, file);
+                    fputs(" ", file);
+                }
+                else
+                {
+                    if(mat[i][j] == "*")
+                    {
+                        fputs(" ", file);
+                        strcpy(str, mat[i][j].c_str() );
+                        fputs(str, file);
+                        fputs(" ", file);
+                    }
+                    else
+                    {
+                        if(stoi(mat[i][j]) > 9 || stoi(mat[i][j]) < 0)
+                        {
+                            fputs(" ", file);
+                            strcpy(str, mat[i][j].c_str() );
+                            fputs(str, file);
+                        }
+                        else
+                        {
+                            fputs(" ", file);
+                            strcpy(str, mat[i][j].c_str() );
+                            fputs(str, file);
+                            fputs(" ", file);
+                        }
+                    }
+                }
+
+            }
+
+            if(j > 9)
+               fputs(" ", file);
+        }
+        fputs("\n", file);
+    }
+    fputs("\n", file);
+
+    fclose(file);
+}
+
+void Vertice :: rankSaves(char* fileName, Vertice* list)
+{
+    char str[BUFF];
+    FILE* file = fopen(fileName, "at");
+    Vertice* tmp = list;
+
+    if(tmp -> getRank() != -1)      // if there is no cycle
+    {
+        for(int j = 0; j < BUFF; j++)
+            str[j] = '\0';
+
+        fputs("Vertex    " , file);
+
+        while(tmp)
+        {
+            strcpy(str, tmp -> getName().c_str());
+            fputs(str, file);
+
+            if(stoi(tmp -> getName()) < 9)
+                fputs("  ", file);
+            else
+                fputs(" ", file);
+
+            tmp = tmp -> getNext();
+        }
+
+        tmp = list;
+
+        fputs("\nRank      " , file);
+        while(tmp)
+        {
+            sprintf(str, "%d", tmp -> getRank());
+            fputs(str, file);
+
+            if(stoi(tmp -> getName()) > 9)
+                fputs("  ", file);
+            else
+                fputs("  ", file);
+
+            tmp = tmp -> getNext();
+        }
+        fputs("\n", file);
+    }
+    else
+        fputs("there is a cycle", file);
+
+
+    fclose(file);
+}
+
+void Vertice :: errorSaves(char* fileName)
+{
+    FILE* file = fopen(fileName, "at");
+    fputs("\nWe can not go any further", file);
+    fclose(file);
+}
+
+void Vertice :: timeSaves(char* fileName, int* tab, Vertice* list, char c)
+{
+    Vertice* tmp = list;
+    FILE* file = fopen(fileName, "at");
+    char str[BUFF];
+
+    if(c == 'E')
+        fputs("Earliest ", file);
+    else if(c == 'L')
+        fputs("Latest   ", file);
+    else
+        fputs("Margin   ", file);
+
+
+    while(tmp)
+    {
+        for(int j = 0; j < BUFF; j++)
+            str[j] = '\0';
+
+        int i = 0;
+        while(i != stoi(tmp -> getName()) )
+            i++;
+
+        sprintf(str, "%d", tab[i]);
+
+        if(tab[i] > 9)
+        {
+            fputs(str, file);
+            fputs(" ", file);
+        }
+        else
+        {
+            fputs(" ", file);
+            fputs(str, file);
+            fputs(" ", file);
+        }
+
+        tmp = tmp -> next;
+    }
+    fputs("\n", file);
+
+    fclose(file);
+}
+
+void Vertice :: shortSaves(char* fileName, string* path, Vertice * list)
+{
+    Vertice* tmp = list;
+    char str[BUFF];
+    FILE* file = fopen(fileName, "at");
+
+    for(int j = 0; j < BUFF; j++)
+        str[j] = '\0';
+
+    fputs("\nShortest Path : ", file);
+
+    while(!tmp -> source)
+        tmp = tmp -> next;
+
+    // we take its emplacement in the array
+    int i = stoi(tmp -> name);
+
+    sprintf(str, "%d", stoi(tmp -> name));
+    fputs(str, file);
+
+    // while we did not found the sink, we continue to check which vertex we pass thru
+    do
+    {
+        fputs(" -> ", file);
+        strcpy(str, path[i].c_str() );
+        fputs(str, file);
+        i = stoi(path[i]);
+
+    }while(stoi(path[i]) != NB_VERTICES - 1);
+    fputs(" -> ", file);
+    sprintf(str, "%d", NB_VERTICES - 1);
+    fputs(str, file);
+
+    fclose(file);
+}
+
+void Vertice :: initSaves(char* fileName)
+{
+    FILE* file = fopen(fileName, "w+");
+    fputs("", file);
+    fclose(file);
+}

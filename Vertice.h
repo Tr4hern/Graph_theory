@@ -8,6 +8,8 @@
 #include "Edge.h"
 #include "ConsoleColor.h"
 
+
+
 class Vertice
 {
     private:
@@ -45,13 +47,18 @@ class Vertice
         static Vertice* listByRank(Vertice *);
         static void printRank(Vertice *);
 
-        static bool checkScheduling(Vertice *);
-        static void scheduling(Vertice *, Vertice *);
+        static bool checkScheduling(Vertice *, char *);
+        static void scheduling(Vertice *, Vertice *, char *);
 
-        static void makeGraph(char *str);
-
+        static void makeGraph(char *, char *);
         static Vertice* readText(char *);
 
+        static void matSaves(char *, string **, char);
+        static void rankSaves(char *, Vertice *);
+        static void errorSaves(char *);
+        static void timeSaves(char *, int *, Vertice *, char c);
+        static void shortSaves(char *, string *, Vertice *);
+        static void initSaves(char *);
 };
 
 
