@@ -12,21 +12,21 @@ iostream
 windows.h
 -
 
-D:/efrei/cours/s6/graph_theory/projet/Edge.h
+D:/efrei/cours/s6/graph_theory/projet/Int2-1-Edge.h
 vector
 -
 string
 -
 
-D:/efrei/cours/s6/graph_theory/projet/Vertice.h
-Edge.h
-D:/efrei/cours/s6/graph_theory/projet/Edge.h
+D:/efrei/cours/s6/graph_theory/projet/Int2-1-Vertice.h
+Int2-1-Edge.h
+D:/efrei/cours/s6/graph_theory/projet/Int2-1-Edge.h
 ConsoleColor.h
 D:/efrei/cours/s6/graph_theory/projet/ConsoleColor.h
 
-D:/efrei/cours/s6/graph_theory/projet/main.cpp
+D:/efrei/cours/s6/graph_theory/projet/Int2-1-main.cpp
 iostream
 -
-Vertice.h
-D:/efrei/cours/s6/graph_theory/projet/Vertice.h
+Int2-1-Vertice.h
+D:/efrei/cours/s6/graph_theory/projet/Int2-1-Vertice.h
 

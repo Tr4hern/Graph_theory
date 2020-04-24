@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "Vertice.h"
+#include "Int2-1-Vertice.h"
 
-const char* PATH = R"(..\txt\)";
-const char* SAVE = R"(..\traces\)";
+const char* PATH = R"(..\txt\Int2.1-graph)";
+const char* SAVE = R"(..\traces\Int2-1-graph)";
 int BUFFER = 1000;
 
 

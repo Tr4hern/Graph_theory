@@ -5,7 +5,7 @@
 #ifndef PROJET_VERTICE_H
 #define PROJET_VERTICE_H
 
-#include "Edge.h"
+#include "Int2-1-Edge.h"
 #include "ConsoleColor.h"
 
 
@@ -19,7 +19,7 @@ class Vertice
         Vertice* next;
         Vertice* prev;
         int rank;
-        Edge* edges;
+        Int2* edges;
 
     public:
         Vertice();

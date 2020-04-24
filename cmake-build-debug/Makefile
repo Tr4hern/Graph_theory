@@ -122,86 +122,86 @@ projet/fast:
 	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/build
 .PHONY : projet/fast
 
-Edge.obj: Edge.cpp.obj
+Int2-1-Edge.obj: Int2-1-Edge.cpp.obj
 
-.PHONY : Edge.obj
-
-# target to build an object file
-Edge.cpp.obj:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Edge.cpp.obj
-.PHONY : Edge.cpp.obj
-
-Edge.i: Edge.cpp.i
-
-.PHONY : Edge.i
-
-# target to preprocess a source file
-Edge.cpp.i:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Edge.cpp.i
-.PHONY : Edge.cpp.i
-
-Edge.s: Edge.cpp.s
-
-.PHONY : Edge.s
-
-# target to generate assembly for a file
-Edge.cpp.s:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Edge.cpp.s
-.PHONY : Edge.cpp.s
-
-Vertice.obj: Vertice.cpp.obj
-
-.PHONY : Vertice.obj
+.PHONY : Int2-1-Edge.obj
 
 # target to build an object file
-Vertice.cpp.obj:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Vertice.cpp.obj
-.PHONY : Vertice.cpp.obj
+Int2-1-Edge.cpp.obj:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-Edge.cpp.obj
+.PHONY : Int2-1-Edge.cpp.obj
 
-Vertice.i: Vertice.cpp.i
+Int2-1-Edge.i: Int2-1-Edge.cpp.i
 
-.PHONY : Vertice.i
+.PHONY : Int2-1-Edge.i
 
 # target to preprocess a source file
-Vertice.cpp.i:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Vertice.cpp.i
-.PHONY : Vertice.cpp.i
+Int2-1-Edge.cpp.i:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-Edge.cpp.i
+.PHONY : Int2-1-Edge.cpp.i
 
-Vertice.s: Vertice.cpp.s
+Int2-1-Edge.s: Int2-1-Edge.cpp.s
 
-.PHONY : Vertice.s
+.PHONY : Int2-1-Edge.s
 
 # target to generate assembly for a file
-Vertice.cpp.s:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Vertice.cpp.s
-.PHONY : Vertice.cpp.s
+Int2-1-Edge.cpp.s:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-Edge.cpp.s
+.PHONY : Int2-1-Edge.cpp.s
 
-main.obj: main.cpp.obj
+Int2-1-Vertice.obj: Int2-1-Vertice.cpp.obj
 
-.PHONY : main.obj
+.PHONY : Int2-1-Vertice.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+Int2-1-Vertice.cpp.obj:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-Vertice.cpp.obj
+.PHONY : Int2-1-Vertice.cpp.obj
 
-main.i: main.cpp.i
+Int2-1-Vertice.i: Int2-1-Vertice.cpp.i
 
-.PHONY : main.i
+.PHONY : Int2-1-Vertice.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/main.cpp.i
-.PHONY : main.cpp.i
+Int2-1-Vertice.cpp.i:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-Vertice.cpp.i
+.PHONY : Int2-1-Vertice.cpp.i
 
-main.s: main.cpp.s
+Int2-1-Vertice.s: Int2-1-Vertice.cpp.s
 
-.PHONY : main.s
+.PHONY : Int2-1-Vertice.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/main.cpp.s
-.PHONY : main.cpp.s
+Int2-1-Vertice.cpp.s:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-Vertice.cpp.s
+.PHONY : Int2-1-Vertice.cpp.s
+
+Int2-1-main.obj: Int2-1-main.cpp.obj
+
+.PHONY : Int2-1-main.obj
+
+# target to build an object file
+Int2-1-main.cpp.obj:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-main.cpp.obj
+.PHONY : Int2-1-main.cpp.obj
+
+Int2-1-main.i: Int2-1-main.cpp.i
+
+.PHONY : Int2-1-main.i
+
+# target to preprocess a source file
+Int2-1-main.cpp.i:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-main.cpp.i
+.PHONY : Int2-1-main.cpp.i
+
+Int2-1-main.s: Int2-1-main.cpp.s
+
+.PHONY : Int2-1-main.s
+
+# target to generate assembly for a file
+Int2-1-main.cpp.s:
+	$(MAKE) -f CMakeFiles\projet.dir\build.make CMakeFiles/projet.dir/Int2-1-main.cpp.s
+.PHONY : Int2-1-main.cpp.s
 
 # Help Target
 help:
@@ -212,15 +212,15 @@ help:
 	@echo ... projet
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... Edge.obj
-	@echo ... Edge.i
-	@echo ... Edge.s
-	@echo ... Vertice.obj
-	@echo ... Vertice.i
-	@echo ... Vertice.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... Int2-1-Edge.obj
+	@echo ... Int2-1-Edge.i
+	@echo ... Int2-1-Edge.s
+	@echo ... Int2-1-Vertice.obj
+	@echo ... Int2-1-Vertice.i
+	@echo ... Int2-1-Vertice.s
+	@echo ... Int2-1-main.obj
+	@echo ... Int2-1-main.i
+	@echo ... Int2-1-main.s
 .PHONY : help
 
 

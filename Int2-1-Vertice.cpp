@@ -9,7 +9,7 @@
 #include <cstdio>
 #include <vector>
 
-#include "Vertice.h"
+#include "Int2-1-Vertice.h"
 
 int NB_VERTICES = 0;
 int BUFF = 1000;
@@ -74,7 +74,7 @@ void Vertice :: printVertices(Vertice* list)
     {
         cout << green << "Vertex " << tmp -> name << white << endl;
 
-        Edge* t = tmp -> edges;
+        Int2* t = tmp -> edges;
 
         if(t == nullptr)
             cout << "No transition" << endl;
@@ -102,8 +102,8 @@ void Vertice :: setSource(bool b) {source = b;}
 Vertice* Vertice :: setEdges(const vector<string> &vectors, Vertice* list)
 {
     Vertice* tmp = list;
-    Edge* newEdge = new Edge;
-    Edge* t = nullptr;
+    Int2* newEdge = new Int2;
+    Int2* t = nullptr;
 
     newEdge -> setWeight((stoi(vectors[2]) ) );        // convert string to int
 
@@ -204,7 +204,7 @@ string** Vertice :: adjacentMatrix(Vertice * list)
     string** adj = initializer_matrix('A');
 
     Vertice* tmp = list;
-    Edge* t = nullptr;
+    Int2* t = nullptr;
 
     for(int i = 0; i < NB_VERTICES + 1; i++)
     {
@@ -230,7 +230,7 @@ string** Vertice :: valuesMatrix(Vertice* list)
     string** adj = initializer_matrix('V');
 
     Vertice* tmp = list;
-    Edge* t = nullptr;
+    Int2* t = nullptr;
 
     for(int i = 0; i < NB_VERTICES + 1; i++)
     {
@@ -532,7 +532,7 @@ bool Vertice :: checkScheduling(Vertice* list, char* save)
         if(tmp -> sink)
             nbSink += 1;
 
-        Edge* t = tmp -> edges;
+        Int2* t = tmp -> edges;
         if(t != nullptr)
         {
             int currentValue = t -> getWeight();
@@ -596,7 +596,7 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks, char* save)
         // calculation of the earliest time
         while(tmp)
         {
-            Edge* t = tmp -> edges;
+            Int2* t = tmp -> edges;
 
             while(t)
             {
@@ -623,7 +623,7 @@ void Vertice :: scheduling(Vertice* list, Vertice* ranks, char* save)
 
         while(tmp)
         {
-            Edge* t = tmp -> edges;
+            Int2* t = tmp -> edges;
 
 
             while(t)

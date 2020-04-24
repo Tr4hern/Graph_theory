@@ -83,19 +83,19 @@
 		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/ConsoleColor.h">
 			<Option target="projet"/>
 		</Unit>
-		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Edge.cpp">
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Int2-1-Edge.cpp">
 			<Option target="projet"/>
 		</Unit>
-		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Edge.h">
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Int2-1-Edge.h">
 			<Option target="projet"/>
 		</Unit>
-		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Vertice.cpp">
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Int2-1-Vertice.cpp">
 			<Option target="projet"/>
 		</Unit>
-		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Vertice.h">
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Int2-1-Vertice.h">
 			<Option target="projet"/>
 		</Unit>
-		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/main.cpp">
+		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/Int2-1-main.cpp">
 			<Option target="projet"/>
 		</Unit>
 		<Unit filename="D:/efrei/cours/s6/graph_theory/projet/CMakeLists.txt">
