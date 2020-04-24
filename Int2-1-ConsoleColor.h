@@ -2,8 +2,8 @@
 // Created by Arnaud on 11/04/2020.
 //
 
-#ifndef PROJET_CONSOLECOLOR_H
-#define PROJET_CONSOLECOLOR_H
+#ifndef PROJET_INT2_1_CONSOLECOLOR_H
+#define PROJET_INT2_1_CONSOLECOLOR_H
 
 #pragma once
 #include <iostream>
@@ -66,4 +66,4 @@ operator<<(std::basic_ostream<_Elem,_Traits>& i, color& c)
     return i;
 }
 
-#endif //PROJET_CONSOLECOLOR_H
+#endif //PROJET_INT2_1_CONSOLECOLOR_H
